@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -80,6 +80,11 @@ public partial class CountDown : BasePlugin
     [ConsoleCommand("css_countdown", "Start countdown")]
     public void CommandStartCountDown(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" [{ChatColors.Lime}CountDown{ChatColors.Default}] You are not admin..");
+            return;
+        }
         var TimeSec = info.ArgByIndex(1);
         if (TimeSec == null || TimeSec == "" || !IsInt(TimeSec))
         {
