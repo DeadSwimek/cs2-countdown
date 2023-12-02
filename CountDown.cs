@@ -28,7 +28,7 @@ public partial class CountDown : BasePlugin
     public override string ModuleName => "SpecialRounds";
     public override string ModuleAuthor => "DeadSwim";
     public override string ModuleDescription => "Simple Special rounds.";
-    public override string ModuleVersion => "V. 1.0.0";
+    public override string ModuleVersion => "V. 1.0.1";
 
 
 
@@ -36,6 +36,8 @@ public partial class CountDown : BasePlugin
     public string Text;
     public bool Countdown_enable;
     public bool Countdown_enable_text;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? timer_1;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? timer_2;
 
 
     public override void Load(bool hotReload)
@@ -106,11 +108,13 @@ public partial class CountDown : BasePlugin
         var time_convert = Convert.ToInt32(TimeSec);
         Time = time_convert;
         Countdown_enable = true;
-        var timer = AddTimer(1.0f, () =>
+        timer_1 = AddTimer(1.0f, () =>
         {
             if (Time == 0.0)
             {
                 Countdown_enable = false;
+                timer_1?.Kill();
+
                 return;
             }
 
@@ -142,11 +146,13 @@ public partial class CountDown : BasePlugin
         Time = time_convert;
         Text = Text_var;
         Countdown_enable_text = true;
-        var timer = AddTimer(1.0f, () =>
+        timer_2 = AddTimer(1.0f, () =>
         {
             if (Time == 0.0)
             {
                 Countdown_enable_text = false;
+                timer_2?.Kill();
+
                 return;
             }
 
